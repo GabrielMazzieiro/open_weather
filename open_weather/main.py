@@ -7,5 +7,6 @@ app.include_router(api_router)
 
 @app.get("/")
 def read_root():
-    return {"Status": "Ok"}
+    return {"Status": "Ok",
+            "Message": "access localhost:8000/docs to see all endpoints"}
 

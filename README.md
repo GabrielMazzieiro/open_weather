@@ -82,8 +82,12 @@ http://localhost:8000/api/get_forecast?city_name=Belo%20Horizonte&country_code=B
 
 ### 🌦️ /api/check_day
 
+```
+http://localhost:8000/api/check_day?day=01/04/2023&city=Santos
+```
+
 Vai retornar as informações mais atuais que ja temos no banco de dados para o dia e cidade explicitada.
 
 - day = data que gostaria de buscar no formato dd/mm/aaaa | ex: '01/04/2023'
 
-- city = nome da cidade que deseja retornar | ex: Rio de Janeiro
+- city = nome da cidade que deseja retornar | ex: Santos

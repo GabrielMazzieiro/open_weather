@@ -7,7 +7,7 @@ from copy import deepcopy as copy
 
 api_router = APIRouter(prefix='/api')
 
-@api_router.get("/forecast")
+@api_router.get("/get_forecast")
 async def get_forecast(city_name: str, country_code: str, units: str,  lat: str | None = None, lon: str | None = None):
     
     try:
@@ -33,4 +33,38 @@ async def get_forecast(city_name: str, country_code: str, units: str,  lat: str 
         raise HTTPException(400, detail=tb_str)
 
 
+@api_router.get("/check_day")
+async def check_day(day: str, city: str):
+    try:
+
+        print(day)
+
+        last_data = mongo_client.open_weather.forecast.find_one({
+            day: {'$exists': True}, 
+            'city': city
+            })
+        
+        assert last_data, "Infelizmente não temos dados dessa cidade para esse dia, tente acessar o endereço /api/get_forecast para recuperarmos"
+
+        final_data = {
+            "city": last_data['city'],
+            'country':last_data['country'],
+            'insert_datetime_int_utc':last_data['insert_datetime_int_utc'],
+            'insert_datetime_str_utc':last_data['insert_datetime_str_utc'],
+            day: last_data[day]
+        }
+
+        message = ("Esse é o dado mais atual que temos no banco para o dia buscado. \
+                    Se precisar de um dado mais novo, acesse o endereço /api/get_forecast para recuperarmos um dado novo")
+
+        return message, final_data
+
+
+    except AssertionError as ass:
+        print(ass)
+        return {'message': "Infelizmente não temos dados dessa cidade para esse dia, tente acessar o endereço /api/get_forecast para recuperarmos"}
+
+    except Exception as exp:
+        tb_str = ''.join(traceback.format_exception(None, exp, exp.__traceback__, chain=True))
+        raise HTTPException(400, detail=tb_str)
 

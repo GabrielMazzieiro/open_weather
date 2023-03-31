@@ -5,7 +5,7 @@
 ![Badge](https://img.shields.io/badge/Python-v3.11-blue?style=plastic&logo=python)
 ![Badge](https://img.shields.io/badge/Docker-v3.8-blue?style=plastic&logo=docker)
 ![Badge](https://img.shields.io/badge/Fastapi-v0.92.0-yellowgreen?style=plastic&logo=fastapi)
-![Badge](https://img.shields.io/badge/MongoDB-15.0-green?style=plastic&logo=mongoDB)
+![Badge](https://img.shields.io/badge/MongoDB--green?style=plastic&logo=mongoDB)
 
 # ✏️ Sumário
 
@@ -14,13 +14,11 @@
 - [Instalando Docker](#--instalando-docker)
 - [Subindo os Containers](#--subindo-os-containers)
 
-### Padronização de Commits
+### Fazendo a Requisição
 
-- [Padrão de Commits](#-padrão-de-commits)
-  - [Conventional Commits](#--conventional-commits)
-  - [Conventional Commits Types](#--conventional-commits-types-)
-  - [Conventional Commits BREAKING CHANGE](#--conventional-commits-breaking-change-)
-  - [Extensão VSCODE](#--extensão-do-vscode)
+- [Fazendo a Requisição](#🌐-Fazendo-a-Requisição)
+  - [/api/get_forecast](#🌥️-/api/get_forecast)
+  - [/api/check_day](#🌦️-/api/check_day)
 
 # 🛠️ Criando Ambiente Local
 
@@ -57,4 +55,35 @@ $ docker-compose up -d --build
 
 # 🌐 Fazendo a Requisição
 
-A requisição a ser feita é um GET, portando você conseg
+A API só tem endpoints GET, portando você consegue fazer do seu navegador ou do proprio swagger.
+Para acessar o docs do fastapi e ver os parametros necessarios, entrem em:
+
+```
+localhost:8000/docs
+```
+
+### 🌥️ /api/get_forecast
+
+Vai retornar um novo dado da api do open weather e adiciona-lo no nosso banco.
+Caso lat e lon sejam passados, eles serão os parametros usados para a busca.
+
+```
+http://localhost:8000/api/get_forecast?city_name=Belo%20Horizonte&country_code=BRA&units=metric
+```
+
+- city_name = Nome da cidade que deseja retornar | Ex: Rio de Janeiro
+- country_code = Codigo ISO 3166 do país | Ex: BRA
+- units = unidade de medida do retorno | metric, imperial ou standard
+  - metric para celsius (C°)
+  - imperial para fahrenheit (F°)
+  - standard para kelvin (kelvin)
+- lat = latitude da cidade | opcional
+- lon = longitude da cidade | opcional
+
+### 🌦️ /api/check_day
+
+Vai retornar as informações mais atuais que ja temos no banco de dados para o dia e cidade explicitada.
+
+- day = data que gostaria de buscar no formato dd/mm/aaaa | ex: '01/04/2023'
+
+- city = nome da cidade que deseja retornar | ex: Rio de Janeiro
